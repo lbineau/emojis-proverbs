@@ -15,6 +15,7 @@ const quotes = [
   { emojis: '↺🪴', quote: `Tourner autour du pot.`, link: 'https://fr.wiktionary.org/wiki/tourner_autour_du_pot' },
   { emojis: '❤️🪨', quote: `Avoir un coeur de pierre.`, link: 'https://fr.wiktionary.org/wiki/avoir_un_c%C5%93ur_de_pierre' },
   { emojis: '✂️🌿🦶', quote: `Couper l'herbe sous le pied.`, link: 'https://fr.wiktionary.org/wiki/couper_l%E2%80%99herbe_sous_le_pied' },
+  { emojis: '🥱🐦‍⬛', quote: `Bailler aux corneilles.`, link: 'https://fr.wiktionary.org/wiki/bailler_aux_corneilles' },
 ]
 const quote = ref(null)
 
