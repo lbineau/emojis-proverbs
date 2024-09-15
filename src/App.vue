@@ -26,7 +26,7 @@ pickRandomQuote()
   </main>
 
   <footer>
-    <Button icon="pi pi-question-circle" label="Citation au hasard" @click="pickRandomQuote()" rounded></Button>
+    <Button icon="pi pi-question-circle" label="Proverbe au hasard" @click="pickRandomQuote()" rounded></Button>
   </footer>
 </template>
 
