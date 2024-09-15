@@ -1,22 +1,10 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import VHeader from './components/VHeader.vue'
+import CitationItem from './components/CitationItem.vue'
 import _sample from 'lodash/sample'
 import { ref } from 'vue'
+import { quotes } from './assets/quotes.json'
 
-const quotes = [
-  { emojis: '🐸💦→🚫🕊️', quote: `La bave du crapaud n'atteint pas la blanche colombe.`, link: 'https://fr.wiktionary.org/wiki/la_bave_du_crapaud_n%E2%80%99atteint_pas_la_blanche_colombe' },
-  { emojis: '⛪🎯🏙️', quote: `Remettre l'église au milieu du village.`, link: 'https://fr.wiktionary.org/wiki/garder_l%E2%80%99%C3%A9glise_au_milieu_du_village' },
-  { emojis: '💧🏺🌊', quote: `La goutte d'eau qui fait déborder le vase.`, link: 'https://fr.wiktionary.org/wiki/la_goutte_d%E2%80%99eau_qui_fait_d%C3%A9border_le_vase' },
-  { emojis: '🦶✉️', quote: `Au pied de la lettre.`, link: 'https://fr.wiktionary.org/wiki/au_pied_de_la_lettre' },
-  { emojis: '🦶🍽️', quote: `Mettre les pieds dans le plat.`, link: 'https://fr.wiktionary.org/wiki/mettre_les_pieds_dans_le_plat' },
-  { emojis: '🥑😈', quote: `Avocat du diable.`, link: 'https://fr.wiktionary.org/wiki/avocat_du_diable' },
-  { emojis: '🌧️🌈☀️', quote: `Après la pluie, le beau temps.`, link: 'https://fr.wiktionary.org/wiki/apr%C3%A8s_la_pluie,_le_beau_temps' },
-  { emojis: '↺🪴', quote: `Tourner autour du pot.`, link: 'https://fr.wiktionary.org/wiki/tourner_autour_du_pot' },
-  { emojis: '❤️🪨', quote: `Avoir un coeur de pierre.`, link: 'https://fr.wiktionary.org/wiki/avoir_un_c%C5%93ur_de_pierre' },
-  { emojis: '✂️🌿🦶', quote: `Couper l'herbe sous le pied.`, link: 'https://fr.wiktionary.org/wiki/couper_l%E2%80%99herbe_sous_le_pied' },
-  { emojis: '🥱🐦‍⬛', quote: `Bailler aux corneilles.`, link: 'https://fr.wiktionary.org/wiki/bailler_aux_corneilles' },
-]
 const quote = ref(null)
 
 function pickRandomQuote() {
@@ -29,16 +17,17 @@ pickRandomQuote()
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld />
+      <VHeader />
     </div>
   </header>
 
   <main>
-    <TheWelcome :citation="quote" />
-    <footer>
-      <Button label="🔀 Citation au hasard" @click="pickRandomQuote()"></Button>
-    </footer>
+    <CitationItem :citation="quote" :ref="quote.emojis" v-if="quote" />
   </main>
+
+  <footer>
+    <Button icon="pi pi-question-circle" label="Citation au hasard" @click="pickRandomQuote()" rounded></Button>
+  </footer>
 </template>
 
 <style scoped>
@@ -70,7 +59,15 @@ header {
 }
 
 footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: 1rem;
   text-align: center;
+}
+
+.p-button {
+  font-style: italic;
 }
 </style>

@@ -4,7 +4,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="greetings">
+  <div>
     <h1>Quel proverbe représente ces emojis?</h1>
   </div>
 </template>
@@ -16,9 +16,5 @@ h1 {
   max-inline-size: 50ch;
   text-wrap: balance;
   margin-bottom: 1.5rem;
-}
-
-h2 {
-  font-size: 1.2rem;
 }
 </style>
