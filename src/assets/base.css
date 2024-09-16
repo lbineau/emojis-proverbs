@@ -31,42 +31,6 @@ body {
 }
 
 @font-face {
-  font-family: 'Centaury Display';
-  src: url('./fonts/centaury/Centaury Display.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-stretch: normal;
-  unicode-range: U+0020-00FC;
-}
-
-@font-face {
-  font-family: 'Centaury Display';
-  src: url('./fonts/centaury/Centaury Display Italic.woff2') format('woff2');
-  font-weight: 400;
-  font-style: italic;
-  font-stretch: normal;
-  unicode-range: U+0020-00FC;
-}
-
-@font-face {
-  font-family: 'Centaury';
-  src: url('./fonts/centaury/Centaury Italic.woff2') format('woff2');
-  font-weight: 400;
-  font-style: italic;
-  font-stretch: normal;
-  unicode-range: U+0020-00FC;
-}
-
-@font-face {
-  font-family: 'Centaury';
-  src: url('./fonts/centaury/Centaury Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-stretch: normal;
-  unicode-range: U+0020-00FC;
-}
-
-@font-face {
   font-family: 'Paragon';
   src: url('./fonts/paragon/paragon-regular-webfont.woff2') format('woff2');
   font-weight: normal;

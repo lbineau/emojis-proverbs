@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.0.5",
+    "@unhead/vue": "^1.11.6",
     "lodash": "^4.17.21",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.5",

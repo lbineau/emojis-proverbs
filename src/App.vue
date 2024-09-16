@@ -2,13 +2,44 @@
 import VHeader from './components/VHeader.vue'
 import CitationItem from './components/CitationItem.vue'
 import _sample from 'lodash/sample'
+import _head from 'lodash/head'
 import { ref } from 'vue'
 import { quotes } from './assets/quotes.json'
+import { useHead } from '@unhead/vue'
 
 const quote = ref(null)
 
+const faviconEmojis = [
+  '🍔',
+  '😀',
+  '🙅🏻‍♀️',
+  '🐛',
+  '🎛',
+  '🤯',
+  '🎯',
+  '📕',
+  '🎨',
+  '🏆',
+  '👀',
+  '🔥',
+  '📦',
+  '🌴',
+  '😑',
+  '👻',
+  '👋',
+  '🐭',
+  '🥨',
+]
+
 function pickRandomQuote() {
   quote.value = _sample(quotes)
+  const emojiFavicon = _sample(faviconEmojis)
+  useHead({
+    link: {
+      rel: 'icon',
+      href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emojiFavicon}</text></svg>`
+    }
+  })
 }
 
 pickRandomQuote()
