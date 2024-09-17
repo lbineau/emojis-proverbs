@@ -19,6 +19,9 @@ watch(() => props.citation.emojis, (newValue, oldValue) => {
 
 <template>
   <Panel header="Header" toggleable v-model:collapsed="collapsed">
+    <template #toggleicon="{ collapsed }">
+      <div class="pi" :class="collapsed ? 'pi-eye-slash' : 'pi-eye'" style="font-size: 1.5rem"></div>
+    </template>
     <template #header>
       <h3>
         {{ citation.emojis }}
