@@ -6,6 +6,9 @@
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
+
+  padding-top: 6rem;
+  padding-bottom: 4rem;
 }
 
 @media (min-width: 1024px) {

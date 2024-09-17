@@ -30,7 +30,6 @@ header {
 }
 
 main {
-  padding-top: 6rem;
   max-width: 100%;
   overflow: hidden;
 }
