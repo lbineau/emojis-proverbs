@@ -11,8 +11,7 @@ const quotesTable = reactive(quotes)
     <div class="view-list">
         <DataTable :value="quotesTable" stripedRows>
             <Column field="emojis" header="Emojis" bodyStyle="font-size: 1.7rem"></Column>
-            <!--<Column field="quote" header="Expression"></Column>-->
-            <Column field="link" header="Lien">
+            <Column header="Expression">
                 <template #body="{ data }">
                     <Button as="a" :href="data.link" icon="pi pi-link" :label="data.quote" link></Button>
                 </template>
