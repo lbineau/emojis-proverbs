@@ -1,17 +1,24 @@
 <script setup>
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { quotes } from '../assets/quotes.json'
 
 const quotesTable = reactive(quotes)
+const dt = ref();
+const exportCSV = () => {
+    dt.value.exportCSV();
+};
 </script>
 
 <template>
     <div class="view-list">
-        <DataTable :value="quotesTable" stripedRows>
+        <DataTable ref="dt" :value="quotesTable" stripedRows>
+            <template #header>
+                <Button icon="pi pi-upload" label="Exporter Excel" @click="exportCSV($event)" />
+            </template>
             <Column field="emojis" header="Emojis" bodyStyle="font-size: 1.7rem"></Column>
-            <Column header="Expression">
+            <Column field="quote" header="Expression">
                 <template #body="{ data }">
                     <Button as="a" :href="data.link" icon="pi pi-link" :label="data.quote" link></Button>
                 </template>
@@ -33,7 +40,7 @@ const quotesTable = reactive(quotes)
     max-width: 100%;
 }
 
-.p-button {
+.p-datatable-table-container .p-button {
     --p-button-padding-x: 0;
     --p-button-padding-y: 0;
     --p-button-link-color: white;
