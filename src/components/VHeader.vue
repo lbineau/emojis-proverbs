@@ -1,11 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import Menubar from 'primevue/menubar';
-import { MenuItem } from 'primevue/menuitem';
 import { RouterLink } from 'vue-router';
 
 defineProps({
 })
-const items: MenuItem[] = [{
+const items = [{
   route: '/',
   label: 'Random',
   icon: 'pi pi-question-circle'
@@ -27,7 +26,7 @@ const items: MenuItem[] = [{
   </Menubar>
 </template>
 
-<style>
+<style scoped>
 .router-link-active {
   background-color: hsla(160, 100%, 37%, 0.2);
 }
