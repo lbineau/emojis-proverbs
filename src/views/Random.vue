@@ -47,7 +47,7 @@ pickRandomQuote()
 
 <template>
     <div class="view-random">
-        <h1>Quel expressions représente ces emojis?</h1>
+        <h1>Quelle expression représente ces emojis?</h1>
         <CitationItem :citation="quote" :ref="quote.emojis" v-if="quote" />
         <Teleport to="footer">
             <Button class="btn-random" icon="pi pi-question-circle" label="Expression au hasard"
