@@ -27,7 +27,7 @@ watch(() => props.citation.emojis, (newValue, oldValue) => {
     <blockquote :cite="citation.link">
       {{ citation.quote }}
     </blockquote>
-    <Button as="a" :href="citation.link" label="&rArr;&nbsp;Lien" link></Button>
+    <Button as="a" :href="citation.link" label="&rArr;&nbsp;En savoir plus" link></Button>
   </Panel>
 </template>
 

@@ -9,11 +9,11 @@ const quotesTable = reactive(quotes)
 
 <template>
     <DataTable :value="quotesTable" tableStyle="min-width: 50rem">
-        <Column field="emojis" header="emojis"></Column>
-        <Column field="quote" header="quote"></Column>
-        <Column header="link">
+        <Column field="emojis" header="Emojis"></Column>
+        <Column field="quote" header="Expression"></Column>
+        <Column header="Lien">
             <template #body="slotProps">
-                <Button as="a" :href="slotProps.data" label="&rArr;&nbsp;Lien" link></Button>
+                <Button as="a" :href="slotProps.data" label="&rArr;&nbsp;En savoir plus" link></Button>
             </template>
         </Column>
     </DataTable>
