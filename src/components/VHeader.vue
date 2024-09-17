@@ -16,7 +16,7 @@ const items = [{
 </script>
 
 <template>
-  <Menubar :model="items">
+  <Menubar :model="items" breakpoint="0">
     <template #item="{ item, props, hasSubmenu }">
       <RouterLink class="p-menubar-item-link" v-if="item.route" v-slot="{ href, navigate, isActive }" :to="item.route">
         <span :class="item.icon" />

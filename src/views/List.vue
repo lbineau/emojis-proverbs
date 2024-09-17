@@ -8,13 +8,22 @@ const quotesTable = reactive(quotes)
 </script>
 
 <template>
-    <DataTable :value="quotesTable" tableStyle="min-width: 50rem">
-        <Column field="emojis" header="Emojis"></Column>
-        <Column field="quote" header="Expression"></Column>
-        <Column header="Lien">
-            <template #body="slotProps">
-                <Button as="a" :href="slotProps.data" label="&rArr;&nbsp;En savoir plus" link></Button>
-            </template>
-        </Column>
-    </DataTable>
+    <div class="view-list">
+        <DataTable :value="quotesTable">
+            <Column field="emojis" header="Emojis" bodyStyle="width: 30%;max-width:150px"></Column>
+            <Column field="quote" header="Expression">
+                <template #body="{ data }">
+                    <Button as="a" :href="data.link" :label="data.quote" link></Button>
+                </template>
+            </Column>
+        </DataTable>
+    </div>
 </template>
+
+<style scoped>
+.view-list {
+    max-width: 100%;
+    --p-button-padding-x: 0;
+    --p-button-padding-y: 0;
+}
+</style>

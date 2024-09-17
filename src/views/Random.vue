@@ -62,12 +62,14 @@ pickRandomQuote()
     flex-direction: column;
     align-items: center;
     max-width: 50rem;
+    padding: 0 1rem;
 }
 
 h1 {
     text-align: center;
     font-style: italic;
     font-size: 2.6rem;
+    font-size: clamp(2rem, 4vw + 1rem, 3rem);
     max-inline-size: 50ch;
     text-wrap: balance;
     margin-bottom: 1.5rem;

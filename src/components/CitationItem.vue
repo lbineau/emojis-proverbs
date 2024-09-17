@@ -33,7 +33,7 @@ watch(() => props.citation.emojis, (newValue, oldValue) => {
 
 <style scoped>
 .p-panel {
-  width: 600px;
+  width: 100%;
   max-width: 100%;
   text-align: left;
 }

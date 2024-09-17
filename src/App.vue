@@ -20,11 +20,19 @@ import VHeader from './components/VHeader.vue'
 <style scoped>
 header {
   position: fixed;
-  top: 1rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 main {
   padding-top: 6rem;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 footer {
