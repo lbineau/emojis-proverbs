@@ -1,5 +1,9 @@
 <script setup>
-import { ref, watch } from 'vue';
+import gsap from 'gsap';
+import _toArray from 'lodash/toArray'
+import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
+
+const emojisTemplate = useTemplateRef('emojis')
 
 const collapsed = ref(true)
 
@@ -10,11 +14,27 @@ const props = defineProps({
   }
 })
 
-watch(() => props.citation.emojis, (newValue, oldValue) => {
+const animateEmojis = () => {
+  gsap.from(emojisTemplate.value.childNodes,
+    {
+      duration: 0.5, opacity: 0, scale: 5, stagger: 0.15, ease: "circ.out"
+    }
+  )
+}
+
+watch(() => props.citation.emojis, async (newValue, oldValue) => {
   if (oldValue !== newValue) {
     collapsed.value = true
   }
+  await nextTick()
+  animateEmojis()
 })
+
+const emojisSplitted = computed(() => {
+  return _toArray(props.citation.emojis).map(item => `<span class='emoji'>${item}</span>`).join('')
+})
+
+onMounted(() => animateEmojis())
 </script>
 
 <template>
@@ -24,9 +44,7 @@ watch(() => props.citation.emojis, (newValue, oldValue) => {
       <div class="pi" :class="collapsed ? 'pi-eye-slash' : 'pi-eye'" style="font-size: 1.5rem"></div>
     </template>
     <template #header>
-      <h2>
-        {{ citation.emojis }}
-      </h2>
+      <h2 ref="emojis" v-html="emojisSplitted"></h2>
     </template>
     <blockquote :cite="citation.link">
       {{ citation.quote }}
@@ -47,13 +65,18 @@ watch(() => props.citation.emojis, (newValue, oldValue) => {
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 500;
-  color: var(--color-heading);
   margin-left: auto;
   margin-right: auto;
-  /* center the title visally */
-  transform: translateX(calc(0.5 * var(--p-button-icon-only-width)));
+}
+
+
+@media (min-width: 1024px) {
+  h2 {
+    /* center the title visally */
+    transform: translateX(calc(0.5 * var(--p-button-icon-only-width)));
+  }
 }
 
 blockquote {
@@ -82,5 +105,9 @@ blockquote::after {
   text-decoration: underline;
   text-decoration-style: dashed;
   text-underline-offset: 0.4em;
+}
+
+:deep(.emoji) {
+  display: inline-block;
 }
 </style>
