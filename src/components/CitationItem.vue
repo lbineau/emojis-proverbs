@@ -18,19 +18,20 @@ watch(() => props.citation.emojis, (newValue, oldValue) => {
 </script>
 
 <template>
-  <Panel header="Header" toggleable v-model:collapsed="collapsed">
+  <Panel header="Header" toggleable v-model:collapsed="collapsed"
+    :toggle-button-props="{ ariaLabel: 'Révéler l\'expression', rounded: true }">
     <template #toggleicon="{ collapsed }">
       <div class="pi" :class="collapsed ? 'pi-eye-slash' : 'pi-eye'" style="font-size: 1.5rem"></div>
     </template>
     <template #header>
-      <h3>
+      <h2>
         {{ citation.emojis }}
-      </h3>
+      </h2>
     </template>
     <blockquote :cite="citation.link">
       {{ citation.quote }}
     </blockquote>
-    <Button as="a" :href="citation.link" label="&rArr;&nbsp;En savoir plus" link></Button>
+    <Button as="a" :href="citation.link" label="En savoir plus" icon="pi pi-external-link" link></Button>
   </Panel>
 </template>
 
@@ -45,12 +46,14 @@ watch(() => props.citation.emojis, (newValue, oldValue) => {
   padding: 1rem;
 }
 
-h3 {
+h2 {
   font-size: 2rem;
   font-weight: 500;
   color: var(--color-heading);
   margin-left: auto;
   margin-right: auto;
+  /* center the title visally */
+  transform: translateX(calc(0.5 * var(--p-button-icon-only-width)));
 }
 
 blockquote {
@@ -68,5 +71,16 @@ blockquote::before {
 
 blockquote::after {
   content: '”';
+}
+
+/* style link */
+.p-button-link {
+  text-decoration: none;
+}
+
+.p-button-link:not(:disabled) :deep(.p-button-label) {
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 0.4em;
 }
 </style>

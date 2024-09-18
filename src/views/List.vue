@@ -13,6 +13,7 @@ const exportCSV = () => {
 
 <template>
     <div class="view-list">
+        <h1>Liste des Expremojis</h1>
         <DataTable ref="dt" :value="quotesTable" stripedRows>
             <template #header>
                 <Button icon="pi pi-upload" label="Exporter Excel" @click="exportCSV($event)" />
