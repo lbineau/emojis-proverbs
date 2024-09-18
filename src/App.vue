@@ -10,7 +10,11 @@ import VHeader from './components/VHeader.vue'
   </header>
 
   <main>
-    <RouterView />
+    <router-view v-slot="{ Component, route }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" :key="route.path" />
+      </transition>
+    </router-view>
   </main>
 
   <footer>
