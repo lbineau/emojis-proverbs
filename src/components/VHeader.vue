@@ -6,19 +6,19 @@ defineProps({
 })
 const items = [{
   route: '/',
-  label: 'Random',
+  label: 'Aléatoire',
   icon: 'pi pi-question-circle'
 }, {
   route: '/list',
-  label: 'List',
+  label: 'Liste',
   icon: 'pi pi-list'
 }]
 </script>
 
 <template>
   <Menubar :model="items" breakpoint="0">
-    <template #item="{ item, props, hasSubmenu }">
-      <RouterLink class="p-menubar-item-link" v-if="item.route" v-slot="{ href, navigate, isActive }" :to="item.route">
+    <template #item="{ item }">
+      <RouterLink class="p-menubar-item-link" v-if="item.route" :to="item.route">
         <span :class="item.icon" />
         <span class="ml-2">{{ item.label }}</span>
       </RouterLink>

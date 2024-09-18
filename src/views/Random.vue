@@ -28,7 +28,7 @@ function pickRandomQuote() {
         <h1>Quelle expression représente ces emojis?</h1>
         <CitationItem :citation="quote" :ref="quote.emojis" v-if="quote" />
         <Teleport to="footer">
-            <Button class="btn-random" icon="pi pi-question-circle" label="Expression au hasard"
+            <Button class="btn-random" icon="pi pi-question-circle" label="Expression aléatoire"
                 @click="pickRandomQuote" rounded></Button>
         </Teleport>
     </div>
