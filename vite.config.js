@@ -48,6 +48,10 @@ export default defineConfig({
     }),
     ogPlugin({
       basic: {
+        title: 'Expremojis',
+        description: 'Des emojis et des expressions',
+        url: 'https://emojis.bineau.me/',
+        locale: 'fr_FR',
         image: '/og-image.png'
       }
     })
