@@ -1,7 +1,7 @@
 {
     "quotes": [
         {
-            "emojis": "🐸💦→🚫🕊️",
+            "emojis": "🐸💦→🙅🕊️",
             "quote": "La bave du crapaud n'atteint pas la blanche colombe.",
             "link": "https://fr.wiktionary.org/wiki/la_bave_du_crapaud_n%E2%80%99atteint_pas_la_blanche_colombe"
         },
@@ -109,6 +109,11 @@
             "emojis": "💨🐌",
             "quote": "Avancer comme un escargot.",
             "link": "https://lemagdesanimaux.ouest-france.fr/dossier-1508-avancer-comme-escargot.html"
+        },
+        {
+            "emojis": "🙅🫸👵🌿",
+            "quote": "Ne pas pousser mémé dans les orties.",
+            "link": "https://fr.wiktionary.org/wiki/il_ne_faut_pas_pousser_m%C3%A9m%C3%A9_dans_les_orties"
         }
     ]
 }
