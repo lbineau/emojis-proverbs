@@ -10,16 +10,17 @@ import { useHead } from '@unhead/vue'
 const { state: quote, next: nextQuote } = useCycleList(_shuffle(quotes))
 const { state: emojiFavicon, next: nextFavicon } = useCycleList(_shuffle(favicons))
 
+useHead({
+    link: () => [{
+        key: 'icon',
+        rel: 'icon',
+        href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emojiFavicon.value}</text></svg>`
+    }]
+})
+
 function pickRandomQuote() {
     nextQuote()
     nextFavicon()
-    useHead({
-        link: {
-            key: 'icon',
-            rel: 'icon',
-            href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emojiFavicon.value}</text></svg>`
-        }
-    })
 }
 </script>
 

@@ -3,7 +3,7 @@ import 'primeicons/primeicons.css'
 
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import { createHead } from '@unhead/vue'
+import { createHead } from '@unhead/vue/client'
 import App from './App.vue'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
