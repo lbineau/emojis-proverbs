@@ -1,8 +1,10 @@
 <script setup>
-import gsap from 'gsap';
+import gsap from 'gsap'
 import _toArray from 'lodash/toArray'
-import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue'
+import { useWebHaptics } from 'web-haptics/vue'
 
+const { trigger } = useWebHaptics()
 const emojisTemplate = useTemplateRef('emojis')
 
 const collapsed = ref(true)
@@ -36,6 +38,9 @@ const animateEmojis = () => {
       duration: 0.5, opacity: 0, scale: 5, stagger: 0.15, ease: "circ.out"
     }
   )
+  trigger(_toArray(props.citation.emojis).map(() => {
+    return { duration: 50, intensity: 0.1, delay: 50 + 15 }
+  }))
 }
 
 watch(() => props.citation.emojis, async (newValue, oldValue) => {
@@ -63,6 +68,7 @@ onMounted(() => animateEmojis())
 <template>
   <Panel header="Header" toggleable v-model:collapsed="collapsed"
     :toggle-button-props="{ ariaLabel: 'Révéler l\'expression', rounded: true }"
+     @toggle="() => trigger('light')"
     :pt="panelPt">
     <template #toggleicon="{ collapsed }">
       <div class="pi" :class="collapsed ? 'pi-eye-slash' : 'pi-eye'" style="font-size: 1.5rem"></div>

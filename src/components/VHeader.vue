@@ -1,6 +1,9 @@
 <script setup>
 import Menubar from 'primevue/menubar';
 import { RouterLink } from 'vue-router';
+import { useWebHaptics } from 'web-haptics/vue'
+
+const { trigger } = useWebHaptics()
 
 defineProps({
 })
@@ -18,7 +21,7 @@ const items = [{
 <template>
   <Menubar :model="items" breakpoint="0">
     <template #item="{ item }">
-      <RouterLink class="p-menubar-item-link" v-if="item.route" :to="item.route">
+      <RouterLink @click="trigger()" class="p-menubar-item-link" v-if="item.route" :to="item.route">
         <span :class="item.icon" />
         <span class="ml-2">{{ item.label }}</span>
       </RouterLink>

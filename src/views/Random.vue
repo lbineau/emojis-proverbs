@@ -6,7 +6,9 @@ import { useCycleList } from '@vueuse/core'
 import { quotes } from '../assets/quotes.json'
 import { favicons } from '../assets/favicons.json'
 import { useHead } from '@unhead/vue'
+import { useWebHaptics } from 'web-haptics/vue'
 
+const { trigger } = useWebHaptics()
 const { state: quote, next: nextQuote } = useCycleList(_shuffle(quotes))
 const { state: emojiFavicon, next: nextFavicon } = useCycleList(_shuffle(favicons))
 
@@ -19,6 +21,7 @@ useHead({
 })
 
 function pickRandomQuote() {
+    trigger('success')
     nextQuote()
     nextFavicon()
 }
