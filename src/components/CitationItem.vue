@@ -14,6 +14,22 @@ const props = defineProps({
   }
 })
 
+// Displayed citation updates only after collapse animation finishes
+const displayedCitation = ref({ ...props.citation })
+const pendingCitation = ref(null)
+
+const panelPt = computed(() => ({
+  transition: {
+    onAfterLeave: () => {
+      // Update displayed content only after the collapse animation ends
+      if (pendingCitation.value) {
+        displayedCitation.value = { ...pendingCitation.value }
+        pendingCitation.value = null
+      }
+    }
+  }
+}))
+
 const animateEmojis = () => {
   gsap.from(emojisTemplate.value.childNodes,
     {
@@ -24,7 +40,14 @@ const animateEmojis = () => {
 
 watch(() => props.citation.emojis, async (newValue, oldValue) => {
   if (oldValue !== newValue) {
-    collapsed.value = true
+    if (collapsed.value) {
+      // Already collapsed, no transition will happen, update immediately
+      displayedCitation.value = { ...props.citation }
+    } else {
+      // Panel is open, schedule update for after collapse animation
+      pendingCitation.value = { ...props.citation }
+      collapsed.value = true
+    }
   }
   await nextTick()
   animateEmojis()
@@ -39,17 +62,18 @@ onMounted(() => animateEmojis())
 
 <template>
   <Panel header="Header" toggleable v-model:collapsed="collapsed"
-    :toggle-button-props="{ ariaLabel: 'Révéler l\'expression', rounded: true }">
+    :toggle-button-props="{ ariaLabel: 'Révéler l\'expression', rounded: true }"
+    :pt="panelPt">
     <template #toggleicon="{ collapsed }">
       <div class="pi" :class="collapsed ? 'pi-eye-slash' : 'pi-eye'" style="font-size: 1.5rem"></div>
     </template>
     <template #header>
       <h2 ref="emojis" v-html="emojisSplitted"></h2>
     </template>
-    <blockquote :cite="citation.link">
-      {{ citation.quote }}
+    <blockquote :cite="displayedCitation.link">
+      {{ displayedCitation.quote }}
     </blockquote>
-    <Button as="a" :href="citation.link" label="En savoir plus" icon="pi pi-external-link" link></Button>
+    <Button as="a" :href="displayedCitation.link" label="En savoir plus" icon="pi pi-external-link" link></Button>
   </Panel>
 </template>
 
