@@ -3,9 +3,13 @@ import { ref, computed } from 'vue'
 import { useToast } from 'primevue/usetoast'
 import Toast from 'primevue/toast'
 import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
 import CitationItem from '../components/CitationItem.vue'
 
 const toast = useToast()
+
+const password = ref('')
+const authenticated = ref(false)
 
 const emojis = ref('')
 const quote = ref('')
@@ -24,11 +28,26 @@ function resetForm() {
   submitted.value = false
 }
 
+const passwordHash = ref('')
+
 const citation = computed(() => ({
   emojis: emojis.value || '🫥',
   quote: quote.value || '…',
   link: link.value || '#'
 }))
+
+async function hashPassword(plain) {
+  const encoded = new TextEncoder().encode(plain)
+  const buffer = await crypto.subtle.digest('SHA-256', encoded)
+  return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('')
+}
+
+async function login() {
+  if (!password.value.trim()) return
+  passwordHash.value = await hashPassword(password.value)
+  password.value = ''
+  authenticated.value = true
+}
 
 async function submitForm() {
   if (!isFormValid.value) return
@@ -39,6 +58,7 @@ async function submitForm() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        passwordHash: passwordHash.value,
         emojis: emojis.value.trim(),
         quote: quote.value.trim(),
         link: link.value.trim()
@@ -48,6 +68,17 @@ async function submitForm() {
     const data = await response.json()
 
     if (!response.ok) {
+      if (response.status === 401) {
+        authenticated.value = false
+        password.value = ''
+        toast.add({
+          severity: 'error',
+          summary: 'Accès refusé',
+          detail: 'Mot de passe incorrect',
+          life: 5000
+        })
+        return
+      }
       throw new Error(data.error || 'Failed to create PR')
     }
 
@@ -77,7 +108,29 @@ async function submitForm() {
     <Toast />
     <h1>Proposer un Expremoji</h1>
 
-    <template v-if="submitted">
+    <template v-if="!authenticated">
+      <form class="login-form" @submit.prevent="login">
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <Password
+            id="password"
+            v-model="password"
+            :feedback="false"
+            placeholder="Mot de passe admin"
+            toggleMask
+          />
+        </div>
+        <Button
+          type="submit"
+          label="Se connecter"
+          icon="pi pi-lock"
+          :disabled="!password.trim()"
+          rounded
+        />
+      </form>
+    </template>
+
+    <template v-else-if="submitted">
       <div class="success-message">
         <i class="pi pi-check-circle"></i>
         <p>Merci pour ta proposition ! Elle sera examinée prochainement.</p>
@@ -197,5 +250,22 @@ h1 {
   font-size: 1.2rem;
   max-width: 30ch;
   text-wrap: balance;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.login-form .field {
+  width: 100%;
+}
+
+.login-form :deep(.p-password) {
+  width: 100%;
 }
 </style>

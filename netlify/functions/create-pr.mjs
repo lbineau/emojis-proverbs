@@ -1,9 +1,14 @@
 import { Octokit } from '@octokit/rest'
+import { createHash, timingSafeEqual } from 'crypto'
 
 const OWNER = 'lbineau'
 const REPO = 'emojis-provers'
 const FILE_PATH = 'src/assets/quotes.json'
 const BASE_BRANCH = 'main'
+
+function sha256(plain) {
+  return createHash('sha256').update(plain).digest('hex')
+}
 
 export default async (request) => {
   if (request.method !== 'POST') {
@@ -13,7 +18,24 @@ export default async (request) => {
     })
   }
 
-  const { emojis, quote, link } = await request.json()
+  const { passwordHash, emojis, quote, link } = await request.json()
+
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (!adminPassword || !passwordHash) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+
+  const expectedHash = sha256(adminPassword)
+  const hashesMatch = timingSafeEqual(Buffer.from(passwordHash), Buffer.from(expectedHash))
+  if (!hashesMatch) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
 
   if (!emojis || !quote || !link) {
     return new Response(JSON.stringify({ error: 'Missing required fields: emojis, quote, link' }), {
