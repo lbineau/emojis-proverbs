@@ -11,10 +11,18 @@ const emojis = ref('')
 const quote = ref('')
 const link = ref('')
 const loading = ref(false)
+const submitted = ref(false)
 
 const isFormValid = computed(() => {
   return emojis.value.trim() && quote.value.trim() && link.value.trim()
 })
+
+function resetForm() {
+  emojis.value = ''
+  quote.value = ''
+  link.value = ''
+  submitted.value = false
+}
 
 const citation = computed(() => ({
   emojis: emojis.value || '🫥',
@@ -45,19 +53,17 @@ async function submitForm() {
 
     toast.add({
       severity: 'success',
-      summary: 'PR créée !',
-      detail: `Pull request créée avec succès : ${data.url}`,
+      summary: 'Proposition envoyée !',
+      detail: 'Ton expremoji a bien été soumis. Il sera examiné avant d\'être ajouté au site.',
       life: 10000
     })
 
-    emojis.value = ''
-    quote.value = ''
-    link.value = ''
+    submitted.value = true
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Erreur',
-      detail: error.message || 'Une erreur est survenue',
+      detail: 'Impossible d\'envoyer la proposition. Réessaie dans quelques instants.',
       life: 5000
     })
   } finally {
@@ -69,38 +75,53 @@ async function submitForm() {
 <template>
   <div class="view-admin">
     <Toast />
-    <h1>Backoffice Expremojis</h1>
+    <h1>Proposer un Expremoji</h1>
 
-    <form class="admin-form" @submit.prevent="submitForm">
-      <div class="field">
-        <label for="emojis">Emojis</label>
-        <InputText id="emojis" v-model="emojis" placeholder="🐸💦→🙅🕊️" />
+    <template v-if="submitted">
+      <div class="success-message">
+        <i class="pi pi-check-circle"></i>
+        <p>Merci pour ta proposition ! Elle sera examinée prochainement.</p>
+        <Button
+          label="Proposer un autre expremoji"
+          icon="pi pi-plus"
+          @click="resetForm"
+          rounded
+        />
       </div>
+    </template>
 
-      <div class="field">
-        <label for="quote">Expression</label>
-        <InputText id="quote" v-model="quote" placeholder="La bave du crapaud n'atteint pas la blanche colombe." />
+    <template v-else>
+      <form class="admin-form" @submit.prevent="submitForm">
+        <div class="field">
+          <label for="emojis">Emojis</label>
+          <InputText id="emojis" v-model="emojis" placeholder="🐸💦→🙅🕊️" />
+        </div>
+
+        <div class="field">
+          <label for="quote">Expression</label>
+          <InputText id="quote" v-model="quote" placeholder="La bave du crapaud n'atteint pas la blanche colombe." />
+        </div>
+
+        <div class="field">
+          <label for="link">Lien (source ou définition)</label>
+          <InputText id="link" v-model="link" type="url" placeholder="https://fr.wiktionary.org/wiki/..." />
+        </div>
+
+        <Button
+          type="submit"
+          label="Envoyer la proposition"
+          icon="pi pi-send"
+          :loading="loading"
+          :disabled="!isFormValid"
+          rounded
+        />
+      </form>
+
+      <div class="preview-section">
+        <h2>Aperçu</h2>
+        <CitationItem :citation="citation" />
       </div>
-
-      <div class="field">
-        <label for="link">Lien</label>
-        <InputText id="link" v-model="link" type="url" placeholder="https://fr.wiktionary.org/wiki/..." />
-      </div>
-
-      <Button
-        type="submit"
-        label="Créer la Pull Request"
-        icon="pi pi-github"
-        :loading="loading"
-        :disabled="!isFormValid"
-        rounded
-      />
-    </form>
-
-    <div class="preview-section">
-      <h2>Aperçu</h2>
-      <CitationItem :citation="citation" />
-    </div>
+    </template>
   </div>
 </template>
 
@@ -156,5 +177,25 @@ h1 {
   font-size: 1.4rem;
   font-style: italic;
   opacity: 0.7;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.success-message .pi-check-circle {
+  font-size: 3rem;
+  color: var(--p-green-400);
+}
+
+.success-message p {
+  font-size: 1.2rem;
+  max-width: 30ch;
+  text-wrap: balance;
 }
 </style>
