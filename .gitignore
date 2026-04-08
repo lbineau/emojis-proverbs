@@ -30,5 +30,8 @@ dev-dist
 
 *.tsbuildinfo
 
+# Environment variables
+.env
+
 # Local Netlify folder
 .netlify

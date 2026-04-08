@@ -7,6 +7,7 @@ import { createHead } from '@unhead/vue/client'
 import App from './App.vue'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
+import ToastService from 'primevue/toastservice'
 import Panel from 'primevue/panel'
 import Button from 'primevue/button'
 
@@ -20,7 +21,8 @@ app.use(head)
 
 const routes = [
   { path: '/', component: Random },
-  { path: '/list', component: List }
+  { path: '/list', component: List },
+  { path: '/admin', component: () => import('./views/Admin.vue') }
 ]
 
 const router = createRouter({
@@ -38,6 +40,7 @@ app.use(PrimeVue, {
     }
   }
 })
+app.use(ToastService)
 
 app.component('Panel', Panel)
 app.component('Button', Button)

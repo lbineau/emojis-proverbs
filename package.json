@@ -10,6 +10,7 @@
     "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/icon.svg"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.1",
     "@primevue/themes": "^4.5.4",
     "@unhead/vue": "^2.1.13",
     "@vueuse/core": "^14.2.1",

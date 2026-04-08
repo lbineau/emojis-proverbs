@@ -58,6 +58,10 @@ watch(() => props.citation.emojis, async (newValue, oldValue) => {
   animateEmojis()
 })
 
+watch(() => [props.citation.quote, props.citation.link], () => {
+  displayedCitation.value = { ...props.citation }
+})
+
 const emojisSplitted = computed(() => {
   return _toArray(props.citation.emojis).map(item => `<span class='emoji'>${item}</span>`).join('')
 })
