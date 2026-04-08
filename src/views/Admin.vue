@@ -42,11 +42,48 @@ async function hashPassword(plain) {
   return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('')
 }
 
+const loggingIn = ref(false)
+
 async function login() {
   if (!password.value.trim()) return
-  passwordHash.value = await hashPassword(password.value)
-  password.value = ''
-  authenticated.value = true
+
+  loggingIn.value = true
+  try {
+    const hash = await hashPassword(password.value)
+    const response = await fetch('/.netlify/functions/create-pr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'verify', passwordHash: hash })
+    })
+
+    if (response.status === 401) {
+      password.value = ''
+      toast.add({
+        severity: 'error',
+        summary: 'Accès refusé',
+        detail: 'Mot de passe incorrect',
+        life: 5000
+      })
+      return
+    }
+
+    if (!response.ok) {
+      throw new Error('Server error')
+    }
+
+    passwordHash.value = hash
+    password.value = ''
+    authenticated.value = true
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: 'Impossible de vérifier le mot de passe. Réessaie dans quelques instants.',
+      life: 5000
+    })
+  } finally {
+    loggingIn.value = false
+  }
 }
 
 async function submitForm() {
@@ -124,6 +161,7 @@ async function submitForm() {
           type="submit"
           label="Se connecter"
           icon="pi pi-lock"
+          :loading="loggingIn"
           :disabled="!password.trim()"
           rounded
         />

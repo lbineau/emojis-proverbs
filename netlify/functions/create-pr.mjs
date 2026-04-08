@@ -18,7 +18,7 @@ export default async (request) => {
     })
   }
 
-  const { passwordHash, emojis, quote, link } = await request.json()
+  const { action, passwordHash, emojis, quote, link } = await request.json()
 
   const adminPassword = process.env.ADMIN_PASSWORD?.trim()
   if (!adminPassword || !passwordHash) {
@@ -34,6 +34,14 @@ export default async (request) => {
   if (receivedBuffer.length !== expectedBuffer.length || !timingSafeEqual(receivedBuffer, expectedBuffer)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+
+  // Password-only verification — no PR creation needed
+  if (action === 'verify') {
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
   }
