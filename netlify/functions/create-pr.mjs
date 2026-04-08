@@ -20,7 +20,7 @@ export default async (request) => {
 
   const { passwordHash, emojis, quote, link } = await request.json()
 
-  const adminPassword = process.env.ADMIN_PASSWORD
+  const adminPassword = process.env.ADMIN_PASSWORD?.trim()
   if (!adminPassword || !passwordHash) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
@@ -29,8 +29,9 @@ export default async (request) => {
   }
 
   const expectedHash = sha256(adminPassword)
-  const hashesMatch = timingSafeEqual(Buffer.from(passwordHash), Buffer.from(expectedHash))
-  if (!hashesMatch) {
+  const receivedBuffer = Buffer.from(String(passwordHash))
+  const expectedBuffer = Buffer.from(expectedHash)
+  if (receivedBuffer.length !== expectedBuffer.length || !timingSafeEqual(receivedBuffer, expectedBuffer)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json' }
