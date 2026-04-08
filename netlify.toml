@@ -1,3 +1,6 @@
+[functions]
+  directory = "netlify/functions"
+
 ## Uncomment to use this redirect for Single Page Applications
 ## Not needed for static site generators.
 [[redirects]]
